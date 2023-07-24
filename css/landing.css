@@ -89,13 +89,27 @@ section:not(.footer){
    }
 }
 
-@media (max-width: 830px){
+@media (max-width: 710px){
    .content h3{
       font-size: 3rem;
    }
    .content p{
       font-size: 2rem;
       line-height: 2rem;
+   }
+}
+
+@media (max-width: 910px){
+   .content h3{
+      font-size: 3rem;
+   }
+   .content p{
+      font-size: 1.7rem;
+      line-height: 1.6rem;
+   }
+   .content button{
+      height: 3rem;
+      font-size: 1.2rem;
    }
 }
 
