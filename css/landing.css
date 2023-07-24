@@ -1,0 +1,163 @@
+@import url('reset.css');
+@import url('global.css');
+@import url('header.css');
+@import url('footer.css');
+@import url('animation.css');
+
+/* 서비스, 스토리, 연락처 */
+section:not(.footer){
+   width: 50vw;
+   height: calc(100vh - var(--header-height)); /* 헤더 높이 제외 */
+   min-height: calc(100vh - var(--header-height));
+   max-height: calc(100vh - var(--header-height));
+   margin: 0 auto;
+   position: relative;
+}
+
+/* 섹션 이미지 */
+.image img{
+   height: 50vh;
+   width: 100%;
+}
+
+/* 섹션 텍스트 */
+.content{
+   padding: 3rem 2rem;
+}
+.content h3{
+   width: 50%;
+   font-size: 2rem;
+   color: var(--primary-color);
+   transition: .7s ease-out;
+}
+.content p{
+   font-size: 1.2rem;
+   padding: 1rem 0;
+   width: 50%;
+   margin-left: auto;
+   line-height: 2rem;
+   transition: .7s ease-out;
+}
+
+/* 섹션 버튼 */
+.content button{
+   width: 12rem;
+   height: 3.5rem;
+   background-color: var(--primary-color);
+   color: #fff;
+   border: none;
+   border-radius: 2rem;
+   cursor: pointer;
+   font-size: 1.5rem;
+   transition: .2s;
+   margin-top: 2rem;
+   position: absolute;
+   bottom: 2rem;
+}
+.content button:hover{
+   background-color: var(--secondary-color);
+   letter-spacing: .2rem;
+}
+
+@media (max-width: 1000px){
+   section:not(.footer){   /* 이미지와 텍스트의 너비 조정 */
+      width: 90vw;
+   }
+   .content{   /* 이미지와 텍스트 세로방향 나열 */
+      display: flex;
+      flex-flow: column;
+   }
+   .content h3, .content p{
+      width: 100%;
+      text-align: center;
+   }
+   .content h3{
+      font-size: 4rem;
+   }
+   .content p{
+      font-size: 2.5rem;
+      line-height: 3rem;
+   }
+   .content button{
+      width: 100%;
+      height: 5rem;
+      border-radius: 3rem;
+      font-size: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 1.5rem;
+   }
+}
+
+@media (max-width: 830px){
+   .content h3{
+      font-size: 3rem;
+   }
+   .content p{
+      font-size: 2rem;
+      line-height: 2rem;
+   }
+}
+
+@media (max-width: 550px){
+   header .navbar ul{   /* 네이게이션 메뉴 화면에서 가리기 */
+      display: none;
+   }
+   .content h3{   /* 텍스트 폰트 크기 조정 */
+      font-size: 1.5rem;
+   }
+   .content p{
+      font-size: 1.1rem;
+      line-height: 1.5rem;
+   }
+   .content button{  /* 버튼 크기 조정 */
+      height: 3rem;
+      font-size: 1.2rem;
+   }
+   .image img{    /* 이미지 높이 조정 */
+      height: 40vh;
+   }
+}
+
+@media (max-width: 420px){    /* 로고, 텍스트 폰트 크기 조정 */
+   header .logo{
+      font-size: 1.2rem;
+   }
+   .content{
+      padding: 2rem 1rem;
+      /* display: flex;
+      flex-flow: column; */
+   }
+   .content h3{
+      font-size: 1.7rem;
+   }
+   .content p{
+      font-size: 1.2rem;
+      line-height: 1.5rem;
+   }
+   .content button{
+      bottom: 2rem;
+   }
+}
+
+@media (max-width: 380px){
+   .content{
+      padding: 1rem, 1rem;
+   }
+   .content h3{
+      font-size: 1.7rem;
+   }
+   .contnet button{
+      bottom: 1rem;
+   }
+}
+
+@media (max-width: 300px){    /* 갤럭시 폴드 */
+   .content h3{
+      font-size: 1.2rem;
+   }
+   .content p{
+      font-size: .8rem;
+      line-height: 1.5rem;
+   }
+}
