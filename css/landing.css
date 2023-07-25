@@ -99,7 +99,7 @@ section:not(.footer){
    }
 }
 
-@media (max-width: 910px){
+@media (max-width: 960px){
    .content h3{
       font-size: 3rem;
    }
