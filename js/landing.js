@@ -1,6 +1,8 @@
-const scroller = new Scroller(false)
+const scroller = new Scroller(false)   // 스크롤 객체 생성
 
 window.addEventListener('load', (event) => {
+   scroller.setScrollPosition({ top: 0, behavior: "smooth" })
+
    // 테마변경 (다크모드 / 일반모드)
    const mode = document.querySelector('.mode')
    const header = document.querySelector('header')
@@ -101,10 +103,13 @@ window.addEventListener('load', (event) => {
          menulink = nav.querySelector('a.active').closest('li')   // 현재 화면에 보이는 섹션에 대한 네비게이션 메뉴
 
          // 1. 스크롤을 내렸는지 올렸는지 판단하기
-         if(scroller.getScrollPosition() > lastScrollLocation){   // 스크롤을 내리는 경우
+         if(scroller.getScrollPosition() - lastScrollLocation > 10){   // 스크롤을 내리는 경우
+            console.log(lastScrollLocation)
+            console.log(scroller.getScrollPosition())
             lastScrollLocation = scroller.getScrollPosition()  // 최근 스크롤 위치 저장
             sectionToMove = menulink.nextElementSibling?.querySelector('a')   // 다음 메뉴
-         }else{   // 스크롤을 올리는 경우
+         }
+         else if(lastScrollLocation - scroller.getScrollPosition() > 10){   // 스크롤을 올리는 경우
             lastScrollLocation = scroller.getScrollPosition()
             sectionToMove = menulink.previousElementSibling?.querySelector('a')   // 이전 메뉴
          }
