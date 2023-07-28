@@ -1,0 +1,150 @@
+@import url('reset.css');
+@import url('global.css');
+@import url('header.css');
+@import url('footer.css');
+
+/* 종모양 스타일링 추가 */
+header .navbar ul li .material-icons{
+   font-size: 2rem;
+}
+
+/* 아바타 스타일링 추가 */
+header .navbar ul li .account img{
+   width: 2rem;
+   height: 2rem;
+   border-radius: 50%;
+}
+
+/* 툴 박스 */
+header .toolbox{
+   display: flex;
+   flex-wrap: wrap;
+}
+header .toolbox > div{
+   border-right: 1px solid #ddd;
+   padding: 0 .5rem;
+}
+header .toolbox > div:nth-child(4){
+   border-right: none;
+}
+header .toolbox > div > a{
+   margin: 0 .2rem;
+}
+header .toolbox > div > a:hover{
+   color: var(--primary-color);
+}
+header .toolbox > div > a label{
+   cursor: pointer;
+}
+
+/* 블로그 편집기 */
+.post-container{
+   width: 50vw;
+   margin: 0 auto;
+   min-height: calc(100vh - (3 * var(--header-height)));
+   display: flex;
+   flex-flow: column;
+   justify-content: flex-start;
+}
+
+/* 카테고리 */
+.post-container .post-category{
+   height: 2rem;
+   margin-top: 3rem;
+}
+.post-container .post-category select{
+   width: 10rem;
+   height: 100%;
+   padding-left: .5rem;  
+}
+
+/* 제목 */
+.post-container .post-title{
+   height: 4rem;
+   margin: 1rem 0;
+   padding: .7rem 0;
+   border-bottom: 1px solid #ddd;
+}
+.post-container .post-title input{
+   outline: none;
+   border: none;
+   height: 100%;
+   font-size: 2rem;
+}
+
+/* 컨텐츠 영역 */
+.post-container .post-contents{
+   flex-grow: 1;
+   border: none;
+   outline: none;
+   font-size: 1rem;
+}
+
+/* 파일 업로드시 적용할 스타일 */
+.post-container img,
+.post-contents .video-file{
+   /* 이미지/비디오 파일의 너비가 편집기를 벗어나지 않도록 함 */
+   max-width: 100%;
+}
+.post-contents .audio{ /* 오디오 파일 */
+   outline: none;
+}
+.post-contents .normal-file{ /* 일반 파일 */
+   display: flex;
+   align-items: center;
+   padding: 1rem 1rem;
+   box-shadow: 0 0 .2rem rgba(0, 0, 0, .3);
+}
+.post-contents .normal-file .file-icon{
+   padding-right: .5rem;
+}
+.post-contents .normal-file .file-icon span{
+   font-size: 2.5rem;
+}
+
+.post-contents .normal-file .file-info h3{
+   margin: .3rem 0;
+}
+.post-contents .normal-file .file-info p{
+   margin: .3rem 0;
+   color: #aaa;
+}
+
+/* 태그 */
+.post-container .post-tags ul{
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: flex-start;
+}
+.post-container .post-tags ul li:nth-child(1){
+   color: #aaa;
+}
+.post-container .post-tags ul li{
+   margin-right: 1rem;
+}
+.post-container .post-tags ul li input{
+   width: 10rem;
+   border: none;
+   outline: none;
+}
+.post-container .post-tags ul li a{
+   color: #aaa;
+   font-size: 1.2rem;
+   font-weight: bold;
+   margin-left: .2rem;
+   transition: .3s;
+}
+.post-container .post-tags ul li a:hover{
+   color: var(--primary-color);
+}
+.hidden{
+   display: none;
+}
+
+/* 다크모드 */
+.post-container .post-title input.dark,
+.post-container .post-contents textarea.dark,
+.post-container .post-tags input.dark{
+   color: #fff;
+   background-color: #333;
+}

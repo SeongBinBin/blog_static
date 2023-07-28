@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+   <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+   <link rel="stylesheet" href="../css/post.css">
+   <title>NGSB Blog _ Post</title>
+</head>
+<body>
+   <!-- 헤더 -->
+   <header>
+      <a href="#" class="logo"><i class="fa-brands fa-blogger"></i>NGSB Blog</a>
+
+      <!-- 툴 박스 -->
+      <div class="toolbox">
+         <div class="file-tool">
+            <a href="#"><label for="post-files"><span class="material-icons">crop_original</span></label></a>
+            <a href="#"><label for="post-files"><span class="material-icons">folder_open</span></label></a>
+            <a href="#"><label for="post-files"><span class="material-icons">slideshow</span></label></a>
+         </div>
+         <div class="text-tool">
+            <a href="#"><span class="material-icons">format_bold</span></a>
+            <a href="#"><span class="material-icons">format_italic</span></a>
+            <a href="#"><span class="material-icons">format_underlined</span></a>
+            <a href="#"><span class="material-icons">format_strikethrough</span></a>
+            <a href="#"><span class="material-icons">format_color_text</span></a>
+            <a href="#"><span class="material-icons">format_color_fill</span></a>
+            <a href="#"><span class="material-icons">format_size</span></a>
+         </div>
+         <div class="align-tool">
+            <a href="#"><span class="material-icons">format_align_left</span></a>
+            <a href="#"><span class="material-icons">format_align_center</span></a>
+            <a href="#"><span class="material-icons">format_align_right</span></a>
+            <a href="#"><span class="material-icons">format_align_justify</span></a>
+         </div>
+         <div class="link-tool">
+            <a href="#"><span class="material-icons">sentiment_satisfied</span></a>
+            <a href="#"><span class="material-icons">table_view</span></a>
+            <a href="#"><span class="material-icons">link</span></a>
+            <a href="#"><span class="material-icons">format_list_bulleted</span></a>
+         </div>
+      </div>
+      
+      <div class="menu">
+      <nav class="navbar">
+         <ul>
+            <li><a href="#">
+            <span class="material-icons">
+               notifications
+            </span>
+            </a></li>
+            <li><a href="#">
+            <div class="account">
+               <img src="../imgs/avatar.jpg" alt="">
+            </div>
+            </a></li>
+         </ul>
+      </nav>
+      
+      <div class="mode">
+         <i class="fa-solid fa-toggle-on"></i>
+         <i class="fa-solid fa-toggle-off active"></i>
+      </div>
+      </div>
+   </header>
+
+   <!-- 블로그 편집기 -->
+   <section class="post-container">
+      <div class="post-category">
+         <select name="category" id="category">
+            <option value="">카테고리</option>
+            <option value="맛집">맛집</option>
+            <option value="라이프">라이프</option>
+            <option value="IT">IT</option>
+            <option value="연애">연애</option>
+            <option value="시사">시사</option>
+         </select>
+      </div>
+      <div class="post-title">
+         <input type="text" placeholder="제목을 입력하세요">
+      </div>
+      <div class="post-contents" contenteditable></div>
+      <div class="post-tags">
+         <ul>
+            <li>#<input type="text" placeholder="태그입력"></li>
+         </ul>
+      </div>
+   </section>
+
+   <!-- 파일처리 섹션 -->
+   <section class="upload hidden">
+      <input type="file" id="post-files" name="post-files" multiple>
+   </section>
+
+<script src="../js/scroll.js"></script>
+<script src="../js/post.js"></script>
+</body>
+</html>
