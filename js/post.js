@@ -69,30 +69,33 @@ window.addEventListener("load", (event) => {
 
          if(fileType.includes('image')){
             console.log('image')
-            const img = document.createElement('img')
-            img.src = URL.createObjectURL(file) // 파일 임시경로 생성
+            const img = buildMediaElement('img', { src: URL.createObjectURL(file)})
 
             // 편집기의 마지막 커서 위치에 파일 추가
             lastCaretLine = addFileToCurrentLine(lastCaretLine, img)
          }else if(fileType.includes('video')){
             console.log('video')
-            const video = document.createElement('video')
-            video.className = 'video-file'
-            video.controls = true
-            video.src = URL.createObjectURL(file)  // 비디오 파일 임시경로 생성
+            const video = buildMediaElement('video', 
+            { className: 'video-file',
+               controls: true,
+               src: URL.createObjectURL(file)
+            })
+
             lastCaretLine = addFileToCurrentLine(lastCaretLine, video)
          }else if(fileType.includes('audio')){
             console.log('audio')
-            const audio = document.createElement('audio')
-            audio.className = 'audio-file'
-            audio.controls = true
-            audio.src = URL.createObjectURL(file)
+            const audio = buildMediaElement('audio', 
+            { className: 'audio-file',
+               controls: true,
+               src: URL.createObjectURL(file)
+            })
+
             lastCaretLine = addFileToCurrentLine(lastCaretLine, audio)
          }else{
             console.log('file', file.name, file.size)
             const div = document.createElement('div')
             div.className = 'normal-file'
-            div.contentEditable = false
+            div.contentEditable = false   // 편집이 되지 않도록 막아둠
             div.innerHTML = `
             <div class='file-icon'>
               <span class="material-icons">folder</span>
@@ -120,11 +123,94 @@ window.addEventListener("load", (event) => {
    }
   })
 
-
   postContents.addEventListener('blur', function(event){
    // 편집기가 blur 될때 마지막 커서 위치에 있는 엘리먼트
    lastCaretLine = document.getSelection().anchorNode
    // console.log(lastCaretLine.parentNode, lastCaretLine, lastCaretLine.length)
+  })
+
+  // 텍스트 포맷
+  const toolBox = document.querySelector('.toolbox')
+  const textTool = document.querySelector('.text-tool')
+  const colorBoxes = textTool.querySelectorAll('.text-tool .color-box')
+  const fontBox = textTool.querySelector('.text-tool .font-box')
+  textTool.addEventListener('click', function(event){
+   event.stopPropagation()
+   console.log(event.target.innerText)
+   switch(event.target.innerText){
+      case 'format_bold':
+         changeTextFormat('bold')
+         break
+      case 'format_italic':
+         changeTextFormat('italic')
+         break
+      case 'format_underlined':
+         changeTextFormat('underline')
+         break
+      case 'format_strikethrough':
+         changeTextFormat('strikeThrough')
+         break
+      case 'format_color_text':
+         // changeTextFormat('foreColor', 'orange')
+         hideDropdown(toolBox, 'format_color_text')
+         colorBoxes[0].classList.toggle('show')
+         break
+      case 'format_color_fill':
+         // changeTextFormat('backColor', 'black')
+         hideDropdown(toolBox, 'format_color_fill')
+         colorBoxes[1].classList.toggle('show')
+         break
+      case 'format_size':
+         // changeTextFormat('fontsize', 7)
+         hideDropdown(toolBox, 'format_size')
+         fontBox.classList.toggle('show')
+         break
+   }
+   // postContents.focus({preventScroll: true})
+  })
+
+  const linkTool = document.querySelector('.link-tool')
+  const imoticonBox = document.querySelector('.link-tool .imoticon-box')
+  linkTool.addEventListener('click', function(event){
+    event.stopPropagation() // document 의 click 이벤트와 충돌하지 않도록 함
+    console.log(event.target.innerText)
+    switch(event.target.innerText){
+      case 'sentiment_satisfied':
+        hideDropdown(toolBox, 'sentiment_satisfied')
+        imoticonBox.classList.toggle('show')
+        break 
+      case 'table_view':
+        break 
+      case 'link':
+        break 
+      case 'format_list_bulleted':
+        break 
+    }
+  })
+
+  colorBoxes[0].addEventListener('click', (event) => changeColor(event, 'foreground'))
+  colorBoxes[1].addEventListener('click', (event) => changeColor(event, 'background'))
+  fontBox.addEventListener('click', changeFontSize)
+  imoticonBox.addEventListener('click', addImoticon)
+
+  // 텍스트 정렬
+  const alignTool = document.querySelector('.align-tool')
+  alignTool.addEventListener('click', function(event){
+   console.log(event.target.innerText)
+   switch(event.target.innerText){
+      case 'format_align_left':
+         changeTextFormat('justifyLeft')
+         break
+      case 'format_align_center':
+         changeTextFormat('justifyCenter')
+         break
+      case 'format_align_right':
+         changeTextFormat('justifyRight')
+         break
+      case 'format_align_justify':
+         changeTextFormat('justifyFull')
+         break
+   }
   })
 })
 
@@ -162,3 +248,73 @@ function getFileSize(number){
       return (number / 1048576).toFixed(1) + 'MB'
    }
 }
+
+// options : { classname : 'audio', controls: 'true'}
+function buildMediaElement(tag, options){
+   const mediaElement = document.createElement(tag)
+   for(const option in options){
+      mediaElement[option] = options[option]
+   }
+   return mediaElement
+}
+
+function changeTextFormat(style, param){
+   console.log(style)
+   document.execCommand(style, false, param)
+   // postContents.focus({preventScroll: true})    // 커서 설정
+}
+
+function hideDropdown(toolBox, currentDropdown){
+   // 현재 text-tool 요소 안쪽에서 열려있는 드롭다운 메뉴를 조회
+   const dropdown = toolBox.querySelector('.select-menu-dropdown.show')
+
+   // 현재 보이는 드롭다운 메뉴가 현재 클릭한 드롭다운 메뉴가 아닌 경우
+   // 현재 클릭한 드롭다운 메뉴만 토글하고 나머지 메뉴는 화면에서 가린다
+   if(dropdown && dropdown.parentElement.querySelector('a span').innerText !== currentDropdown){
+      dropdown.classList.remove('show')
+   }
+}
+
+document.addEventListener('click', function(e){
+   // 현재 열려있는 드롭다운 메뉴 조회
+   const dropdown = document.querySelector('.select-menu-dropdown.show')
+
+   if(dropdown && !dropdown.contains(e.target)){
+      dropdown.classList.remove('show')
+   }
+})
+
+function changeColor(event, mode){
+   event.stopPropagation()    // 상위요소로 클릭이벤트가 버블링되지 않게함
+   
+   if(!event.target.classList.contains('select-menu-dropdown')){
+      console.log(mode, event.target)
+      switch(mode){
+         case 'foreground':
+            changeTextFormat('foreColor', event.target.style.backgroundColor)
+            break
+         case 'background':
+            changeTextFormat('backColor', event.target.style.backgroundColor)
+            break
+      }
+      event.target.parentElement.classList.remove('show')   // 드롭다운 숨기기
+   }
+}
+
+function changeFontSize(event){
+   event.stopPropagation()
+   
+   if(!event.target.classList.contains('select-menu-dropdown')){
+      changeTextFormat('fontsize', event.target.id)
+      event.target.parentElement.classList.remove('show')
+   }
+}
+
+function addImoticon(event){
+   event.stopPropagation()
+   console.log(event.target)
+   if(!event.target.classList.contains('select-menu-dropdown')){
+     changeTextFormat('insertText', event.target.innerText) // 아이콘 추가 
+     event.target.parentElement.classList.remove('show') // 드롭다운 메뉴 숨기기
+   }
+ }
