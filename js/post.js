@@ -54,6 +54,8 @@ window.addEventListener("load", (event) => {
   })
 
   // 파일입력 처리
+  postContents.focus()  // 첫로딩때 커서 보이기
+  postContents.insertAdjacentElement('afterbegin', createNewLine()) // 첫번째 줄에 새로운 공백 라인 추가
   let lastCaretLine = null // Caret : 커서 (커서 위치의 엘리먼트)
   const uploadInput = document.querySelector('.upload input')
   uploadInput.addEventListener('change', function(event){
@@ -74,10 +76,33 @@ window.addEventListener("load", (event) => {
             lastCaretLine = addFileToCurrentLine(lastCaretLine, img)
          }else if(fileType.includes('video')){
             console.log('video')
+            const video = document.createElement('video')
+            video.className = 'video-file'
+            video.controls = true
+            video.src = URL.createObjectURL(file)  // 비디오 파일 임시경로 생성
+            lastCaretLine = addFileToCurrentLine(lastCaretLine, video)
          }else if(fileType.includes('audio')){
             console.log('audio')
+            const audio = document.createElement('audio')
+            audio.className = 'audio-file'
+            audio.controls = true
+            audio.src = URL.createObjectURL(file)
+            lastCaretLine = addFileToCurrentLine(lastCaretLine, audio)
          }else{
-            console.log('file')
+            console.log('file', file.name, file.size)
+            const div = document.createElement('div')
+            div.className = 'normal-file'
+            div.contentEditable = false
+            div.innerHTML = `
+            <div class='file-icon'>
+              <span class="material-icons">folder</span>
+            </div>
+            <div class='file-info'>
+              <h3>${getFileName(file.name, 70)}</h3>
+              <p>${getFileSize(file.size)}</p>
+            </div>
+          `
+          lastCaretLine = addFileToCurrentLine(lastCaretLine, div) // 에디터에 파일추가 및 파일이 추가 될때마다 커서위치 업데이트하기
          }            
       }
 
@@ -99,7 +124,7 @@ window.addEventListener("load", (event) => {
   postContents.addEventListener('blur', function(event){
    // 편집기가 blur 될때 마지막 커서 위치에 있는 엘리먼트
    lastCaretLine = document.getSelection().anchorNode
-   console.log(lastCaretLine.parentNode, lastCaretLine, lastCaretLine.length)
+   // console.log(lastCaretLine.parentNode, lastCaretLine, lastCaretLine.length)
   })
 })
 
@@ -120,4 +145,20 @@ function addFileToCurrentLine(line, file){
    line.nextSibling.insertAdjacentElement('afterbegin', file)
    line.nextSibling.insertAdjacentElement('afterend', createNewLine())
    return line.nextSibling.nextSibling // 파일 하단에 위치한 공백라인
+}
+
+function getFileName(name, limit){
+   // console.log(name.slice (0, limit))
+   // console.log(name.lastIndexOf('.'), name.length)
+   return name.length > limit ? `${name.slice(0, limit)}... ${name.slice(name.lastIndexOf('.'), name.length)}` : name
+}
+
+function getFileSize(number){
+   if(number < 1024){
+      return number + 'bytes'
+   } else if(number >= 1024 && number < 1048576) {
+      return (number / 1024).toFixed(1) + 'KB'
+   } else if(number >= 1048576) {
+      return (number / 1048576).toFixed(1) + 'MB'
+   }
 }
